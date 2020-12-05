@@ -2,13 +2,13 @@
 // Initialize the session
 session_start();
  
-// Check if the user is already logged in, if yes redirect to welcome page
+// Check if the user is already logged in, if yes then redirect him to welcome page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: welcome.php");
     exit;
 }
  
-// Include config file to get database connectivity information
+// Include config file
 require_once "config.php";
  
 // Define variables and initialize with empty values
@@ -32,13 +32,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $password = trim($_POST["password"]);
     }
     
-    // Validate username and password
+    // Validate credentials
     if(empty($username_err) && empty($password_err)){
-        // Prepare a SQL select statement
+        // Prepare a select statement
         $sql = "SELECT username, pass, name, role FROM admins WHERE username = ?";
         
         if($stmt = mysqli_prepare($conn, $sql)){
-            // Bind variables to the prepared statement 
+            // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
             // Set parameters
@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     // Bind result variables
                     mysqli_stmt_bind_result($stmt, $username, $pass, $name, $role);
                     if(mysqli_stmt_fetch($stmt)){
-                        if(strcmp($pass,$password) === 0){ //Security handled by outside application, so no need to use hashed password
+                        if(strcmp($pass,$password) === 0){
                             // Password is correct, so start a new session
                             session_start();
                             
@@ -80,12 +80,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Oops! Something went wrong. Please try again later.";
             }
 
-            // Close DB statement
+            // Close statement
             mysqli_stmt_close($stmt);
         }
     }
     
-    // Close DB connection
+    // Close connection
     mysqli_close($conn);
 }
 ?>
@@ -95,25 +95,54 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
+    <style>
+        body {
+            background-image: url('https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1024-80.jpg');
+            background-size: cover;
+        }
+        #frm {
+	    font-family: Helvetica, Arial, sans-serif;
+            border: solid gray 1;
+            width: 20%;
+            border-radius: 10px;
+            margin: 100px auto;
+            background: white;
+            padding: 50px;
+            padding-left: 70px;
+            padding-right: 70px;
+        }
+        #btn {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #fff;
+            background: #337ab7;
+            padding: 5px;
+            margin-left: 69%;
+        }
+        .form-group {
+            padding-bottom: 20px;
+        }
+     
+    </style>
     
 </head>
 <body>
-    <div class="wrapper">
-        <h2>Login</h2>
+    <div id="frm" align="center">
+        <h2>Admin Portal Login</h2>
         <p>Please fill in your credentials to login.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Username</label>
+                <label>Username:</label>
                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>    
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <label>Password</label>
+                <label>Password:</label>
                 <input type="password" name="password" class="form-control">
                 <span class="help-block"><?php echo $password_err; ?></span>
             </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Login">
+            <div align="center">
+                <input type="submit" id="btn" value="Login">
             </div>
         </form>
     </div>    
