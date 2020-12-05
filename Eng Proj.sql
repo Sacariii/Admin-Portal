@@ -44,8 +44,8 @@ INSERT INTO `admins` (`username`, `pass`, `name`, `role`) VALUES
 ('tech_admin', 'test', 'Sam', 'TECH'),
 ('hr_admin', 'imaboss', 'Will Pocklington', 'HR'),
 ('sales_admin', 'sales', 'Ronu Coronu', 'SALES'),
-('finance_admin', 'money', 'MoneyMan', 'Finance'),
-('support_admin', 'pass1', 'john', 'Support');
+('finance_admin', 'money', 'MoneyMan', 'FINANCE'),
+('support_admin', 'pass1', 'john', 'SUPPORT');
 COMMIT;
 
 -- --------------------------------------------------------
@@ -84,9 +84,9 @@ INSERT INTO `applications` (`role`, `link`, `purpose`) VALUES
 ('FINANCE', 'https://uh.edu/sugarland/students/', 'Accounts Payable'),
 ('FINANCE', 'https://uh.edu/sugarland/degree-programs/', 'Accounts Receivable'),
 ('FINANCE', 'https://uh.edu/sugarland/faculty-staff/', 'Tax'),
-('Support', 'https://uh.edu/sugarland/news/', 'Help Desk'),
-('Support', 'https://uh.edu/sugarland/campus-services/', 'Assign Roles'),
-('Support', 'https://uh.edu/sugarland/partnerships/', 'Manage User Accounts');
+('SUPPORT', 'https://uh.edu/sugarland/news/', 'Help Desk'),
+('SUPPORT', 'https://uh.edu/sugarland/campus-services/', 'Assign Roles'),
+('SUPPORT', 'https://uh.edu/sugarland/partnerships/', 'Manage User Accounts');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
