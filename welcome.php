@@ -18,13 +18,18 @@ require_once "config.php";
     <title>Admin Portal</title>
     <style>
         .border {
-            font-family: montserrat;
+            font-family: Helvetica, Verdana, sans-serif;
             padding: 5px 10px;
             background: #31b0ff;
             color: white;
         }
+ 
+        .page-header {
+            font-family: Helvetica, Verdana, sans-serif;
+        }
 
         p {
+            font-family: Helvetica, Verdana, sans-serif;
             padding-left: 50px;
         }
     </style>
