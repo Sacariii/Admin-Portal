@@ -2,13 +2,13 @@
 // Initialize the session
 session_start();
  
-// Check if the user is already logged in, if yes then redirect him to welcome page
+// Check if the user is already logged in, if yes redirect to welcome page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: welcome.php");
     exit;
 }
  
-// Include config file
+// Include config file to get database connectivity information
 require_once "config.php";
  
 // Define variables and initialize with empty values
@@ -32,13 +32,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $password = trim($_POST["password"]);
     }
     
-    // Validate credentials
+    // Validate username and password
     if(empty($username_err) && empty($password_err)){
-        // Prepare a select statement
+        // Prepare a SQL select statement
         $sql = "SELECT username, pass, name, role FROM admins WHERE username = ?";
         
         if($stmt = mysqli_prepare($conn, $sql)){
-            // Bind variables to the prepared statement as parameters
+            // Bind variables to the prepared statement 
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
             // Set parameters
@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     // Bind result variables
                     mysqli_stmt_bind_result($stmt, $username, $pass, $name, $role);
                     if(mysqli_stmt_fetch($stmt)){
-                        if(strcmp($pass,$password) === 0){
+                        if(strcmp($pass,$password) === 0){ //Security handled by outside application, so no need to use hashed password
                             // Password is correct, so start a new session
                             session_start();
                             
@@ -80,12 +80,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Oops! Something went wrong. Please try again later.";
             }
 
-            // Close statement
+            // Close DB statement
             mysqli_stmt_close($stmt);
         }
     }
     
-    // Close connection
+    // Close DB connection
     mysqli_close($conn);
 }
 ?>
